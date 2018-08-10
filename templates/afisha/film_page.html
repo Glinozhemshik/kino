@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% block content %}
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css"
+          integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+    {% if error %}
+        <div class="alert alert-danger">
+            {{ error }}
+        </div>
+    {% else %}
+        <div class="row">
+            {% if film.poster_url %}
+                <div class="col-5">
+                    <img src="{{ film.poster_url }}" alt="" style="width:100%">
+
+                </div>
+            {% endif %}
+            <div class="col-7">
+                <h1>{{ film.name }}
+                    {% if film.reting %}
+                        <i class="fas fa-star"></i>{{ film.reting }}
+                    {% endif %}
+                </h1>
+                {% if film.about %}
+                    <p>{{ film.about }}</p>
+                {% endif %}
+                {% if runtime %}
+                    <p class="h5">Продолжительность: {{ film.runtime }} мин.</p>
+                {% endif %}
+                {% if genres %}
+                    <p class="h5">Жанры:</p>
+                    <ul class="list-group list-group-flush">
+                        {% for genre in genres %}
+                            <li class="list-group-item">{{ genre }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                <br>
+                {% if film.trailer_url %}
+                    <h3>Трейлер:</h3>
+                    <iframe width="90%" height="315" src="{{ film.trailer_url }}" class="mt-2">
+                    </iframe>
+                {% endif %}
+            </div>
+
+        </div>
+
+
+        <br/>
+        <h3>Cеансы:</h3>
+        <div class="dropdown my-2">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                {{ date | date:'d/m/Y' }}
+            </button>
+            <div class="dropdown-menu">
+                {% for item in dates %}
+                    <a class="dropdown-item"
+                       href="{% url 'film_date_url' film.id item %}">{{ item | date:'d/m/Y' }}</a>
+                {% endfor %}
+            </div>
+        </div>
+        <ul class="list-group">
+            {% for cinema in cinemas %}
+                {% if cinema.seances != 0 %}
+                    <li class="list-group-item">
+                        {{ cinema.cinema.name }} ({{ cinema.cinema.address }})
+                        <br/>
+                        <div class="row">
+                            {% for seance in cinema.seances %}
+                                <div class="col-1">
+                                    {{ seance.time | date:'H:i' }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </li>
+                {% endif %}
+
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}

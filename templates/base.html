@@ -1,0 +1,48 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	{% load bootstrap4 %}
+	{% bootstrap_css %}
+	{% bootstrap_javascript jquery="slim" %}
+	{% block title %}{% endblock %}
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="utf-8">
+	{% load static from staticfiles %}
+</head>
+<header>
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <a class="navbar-brand" href="/">Kino</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">Главная <span class="sr-only">(current)</span></a>
+            </ul>
+        </div>
+    </nav>
+</header>
+<body>
+	<ul class="nav">
+		{% url 'home_url' as home_url %}
+		{% if request.path != home_url %}
+	  		<li class="nav-item">
+				<a class="nav-link" href="{% url 'home_url' %}">Все фильмы</a>
+	  		</li>
+		{% endif %}
+	</ul>
+	<div class="container">
+	  <br>
+		{% block content %}{% endblock %}
+	  <br>
+	</div>
+	<div class="container-fluid">
+	  <footer class="page-footer font-small blue text-center jumbotron">
+		 footer
+	  </footer>
+	</div>
+</body>
+</html>

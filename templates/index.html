@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% block content %}
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css"
+          integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+    <div class="content" style="margin: 50px 0 0 0;">
+        {% for item in all %}
+            <div class="row" style="margin: 5px 0 15px 0;">
+                <div class="col-md-5">
+					{% if item.poster_url %}
+                    	<img src="{{ item.poster_url }}" alt="" style="width:100%">
+					{% endif %}
+                </div>
+                <div class="col-md-6">
+                    <div style="float: left;">
+                        <h3 class="list-group-item"><a href="{% url 'film_url' item.id %}">{{ item.name }}</a></h3>
+						{% if item.reting %}
+                        	<p style="padding: 15px;"><i class="fas fa-star"></i>{{ item.reting }}</p>
+						{% endif %}
+                        <p>{{ item.about }}</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
